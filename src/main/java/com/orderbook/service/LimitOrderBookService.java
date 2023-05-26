@@ -87,7 +87,7 @@ public class LimitOrderBookService {
         }
     }
 
-    private Order findOrder(int orderId, PriorityQueue<Order> orders) {
+    public Order findOrder(int orderId, PriorityQueue<Order> orders) {
         for (Order order : orders) {
             if (order.getOrderId()==(orderId)) {
                 return order;
@@ -172,4 +172,19 @@ public class LimitOrderBookService {
         return false;
     }
 
+    public PriorityQueue<Order> getBidOrders() {
+        return bidOrders;
+    }
+
+    public void setBidOrders(PriorityQueue<Order> bidOrders) {
+        this.bidOrders = bidOrders;
+    }
+
+    public PriorityQueue<Order> getAskOrders() {
+        return askOrders;
+    }
+
+    public void setAskOrders(PriorityQueue<Order> askOrders) {
+        this.askOrders = askOrders;
+    }
 }
