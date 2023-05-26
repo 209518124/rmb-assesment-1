@@ -10,6 +10,8 @@ public class Order {
 
     private String side;
 
+    private double ordertotalprice;
+
 
     public Order(int orderId, double orderPrice, int orderQuantity, int priority, String side) {
         this.orderId = orderId;
@@ -17,6 +19,7 @@ public class Order {
         this.orderQuantity = orderQuantity;
         this.priority = priority;
         this.side = side;
+        ordertotalprice = orderPrice*orderQuantity;
     }
 
     public int getOrderId() {
@@ -59,6 +62,13 @@ public class Order {
         this.priority = priority;
     }
 
+    public double getOrdertotalprice() {
+        return ordertotalprice;
+    }
+
+    public void setOrdertotalprice(double ordertotalprice) {
+        this.ordertotalprice = ordertotalprice;
+    }
 
     @Override
     public String toString() {
@@ -68,6 +78,7 @@ public class Order {
                 ", orderQuantity=" + orderQuantity +
                 ", priority=" + priority +
                 ", side='" + side + '\'' +
+                ", ordertotalprice=" + ordertotalprice +
                 '}';
     }
 }

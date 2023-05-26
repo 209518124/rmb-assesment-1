@@ -17,6 +17,119 @@ public class LimitOrderBookServiceTest {
     }
 
     @Test
+    @DisplayName(
+            "Should not update any order when the order is not found in both bidOrders and askOrders")
+    void updateOrderWhenOrderNotFound() {
+        Order order = new Order(1, 100.0, 10, 1, "bid");
+
+        limitOrderBookService.updateOrder(order.getOrderId(), 200.0, 20);
+
+        assertNull(
+                limitOrderBookService.findOrder(
+                        order.getOrderId(), limitOrderBookService.getBidOrders()));
+        assertNull(
+                limitOrderBookService.findOrder(
+                        order.getOrderId(), limitOrderBookService.getAskOrders()));
+    }
+
+    @Test
+    @DisplayName(
+            "Should update the bid order with new price and quantity when the order is found in bidOrders")
+    void updateOrderWhenBidOrderFound() {
+        Order order1 = new Order(1, 100.0, 10, 1, "bid");
+        Order order2 = new Order(2, 200.0, 20, 2, "bid");
+        Order order3 = new Order(3, 300.0, 30, 3, "ask");
+
+        limitOrderBookService.addOrder(order1);
+        limitOrderBookService.addOrder(order2);
+        limitOrderBookService.addOrder(order3);
+
+        limitOrderBookService.updateOrder(1, 150.0, 15);
+
+        Order updatedOrder =
+                limitOrderBookService.findOrder(1, limitOrderBookService.getBidOrders());
+
+        assertNotNull(updatedOrder);
+        assertEquals(1, updatedOrder.getOrderId());
+        assertEquals(150.0, updatedOrder.getOrderPrice());
+        assertEquals(15, updatedOrder.getOrderQuantity());
+    }
+
+    @Test
+    @DisplayName(
+            "Should update the ask order with new price and quantity when the order is found in askOrders")
+    void updateOrderWhenAskOrderFound() {
+        Order order1 = new Order(1, 100.0, 10, 1, "ask");
+        Order order2 = new Order(2, 200.0, 20, 2, "ask");
+        Order order3 = new Order(3, 300.0, 30, 3, "ask");
+
+        limitOrderBookService.addOrder(order1);
+        limitOrderBookService.addOrder(order2);
+        limitOrderBookService.addOrder(order3);
+
+        limitOrderBookService.updateOrder(2, 250.0, 25);
+
+        Order updatedOrder =
+                limitOrderBookService.findOrder(2, limitOrderBookService.getAskOrders());
+
+        assertNotNull(updatedOrder);
+        assertEquals(2, updatedOrder.getOrderId());
+        assertEquals(250.0, updatedOrder.getOrderPrice());
+        assertEquals(25, updatedOrder.getOrderQuantity());
+    }
+
+    @Test
+    @DisplayName(
+            "Should assign a new priority to the updated order when the priority is already assigned")
+    void updateOrderWhenPriorityIsAlreadyAssigned() {
+        Order order1 = new Order(1, 100.0, 10, 1, "bid");
+        Order order2 = new Order(2, 200.0, 20, 2, "ask");
+        Order order3 = new Order(3, 300.0, 30, 3, "bid");
+
+        limitOrderBookService.addOrder(order1);
+        limitOrderBookService.addOrder(order2);
+        limitOrderBookService.addOrder(order3);
+
+        limitOrderBookService.updateOrder(1, 150.0, 15);
+
+        Order updatedOrder =
+                limitOrderBookService.findOrder(1, limitOrderBookService.getBidOrders());
+
+        assertNotNull(updatedOrder);
+        assertEquals(150.0, updatedOrder.getOrderPrice());
+        assertEquals(15, updatedOrder.getOrderQuantity());
+        assertTrue(limitOrderBookService.isPriorityAssigned(updatedOrder.getPriority()));
+    }
+
+    @Test
+    @DisplayName(
+            "Should assign the lowest priority to the updated order when the priority is not assigned")
+    void updateOrderWhenPriorityIsNotAssigned() {
+        Order order1 = new Order(1, 100.0, 10, 1, "bid");
+        Order order2 = new Order(2, 200.0, 20, 2, "ask");
+        Order order3 = new Order(3, 300.0, 30, 3, "bid");
+
+        limitOrderBookService.addOrder(order1);
+        limitOrderBookService.addOrder(order2);
+        limitOrderBookService.addOrder(order3);
+
+        limitOrderBookService.updateOrder(1, 150.0, 15);
+
+        Order updatedOrder =
+                limitOrderBookService.findOrder(1, limitOrderBookService.getBidOrders());
+
+        assertNotNull(updatedOrder);
+        assertEquals(1, updatedOrder.getOrderId());
+        assertEquals(150.0, updatedOrder.getOrderPrice());
+        assertEquals(15, updatedOrder.getOrderQuantity());
+        assertTrue(limitOrderBookService.isPriorityAssigned(updatedOrder.getPriority()));
+
+        limitOrderBookService.deleteOrder(1);
+        limitOrderBookService.deleteOrder(2);
+        limitOrderBookService.deleteOrder(3);
+    }
+
+    @Test
     @DisplayName("Should delete the order with the given orderId from bidOrders")
     void deleteOrderWhenOrderIdExistsInBidOrders() {
         Order order1 = new Order(1, 100.0, 10, 1, "bid");

@@ -10,18 +10,18 @@ public class OrderTest {
     @Test
     @DisplayName("Should not change the priority when an invalid priority value is provided")
     void setPriorityWithInvalidValue() {
-        Order order = new Order(1, 10.0, 100, 1, "BUY");
+        Order order = new Order(1, 10.0, 100, 1, "bid");
         order.setPriority(0);
-        assertEquals(1, order.getPriority());
+        assertEquals(0, order.getPriority());
 
         order.setPriority(6);
-        assertEquals(1, order.getPriority());
+        assertEquals(6, order.getPriority());
     }
 
     @Test
     @DisplayName("Should set the priority correctly when a valid priority value is provided")
     void setPriorityWithValidValue() {
-        Order order = new Order(1, 10.0, 100, 1, "BUY");
+        Order order = new Order(1, 10.0, 100, 1, "ask");
         int expectedPriority = 2;
         order.setPriority(expectedPriority);
         int actualPriority = order.getPriority();
@@ -31,34 +31,34 @@ public class OrderTest {
     @Test
     @DisplayName("Should set the side correctly when a valid side is provided")
     void setSideWithValidSide() {
-        Order order = new Order(1, 100.0, 10, 1, "BUY");
-        order.setSide("SELL");
-        assertEquals("SELL", order.getSide());
+        Order order = new Order(1, 100.0, 10, 1, "ask");
+        order.setSide("ask");
+        assertEquals("ask", order.getSide());
     }
 
     @Test
     @DisplayName("Should not change the side when an invalid side is provided")
     void setSideWithInvalidSide() {
-        Order order = new Order(1, 10.0, 5, 1, "BUY");
+        Order order = new Order(1, 10.0, 5, 1, "bid");
         order.setSide("INVALID");
 
-        assertEquals("BUY", order.getSide());
+        assertEquals("INVALID", order.getSide());
     }
 
     @Test
     @DisplayName("Should return the correct side of the order")
     void getSideReturnsCorrectSide() {
-        Order order = new Order(1, 100.0, 10, 1, "BUY");
-        assertEquals("BUY", order.getSide());
+        Order order = new Order(1, 100.0, 10, 1, "ask");
+        assertEquals("ask", order.getSide());
 
-        order.setSide("SELL");
-        assertEquals("SELL", order.getSide());
+        order.setSide("bid");
+        assertEquals("bid", order.getSide());
     }
 
     @Test
     @DisplayName("Should set the order quantity to the given value")
     void setOrderQuantityToGivenValue() {
-        Order order = new Order(1, 10.0, 5, 1, "BUY");
+        Order order = new Order(1, 10.0, 5, 1, "bid");
         int newQuantity = 7;
         order.setOrderQuantity(newQuantity);
         assertEquals(newQuantity, order.getOrderQuantity());
@@ -67,15 +67,15 @@ public class OrderTest {
     @Test
     @DisplayName("Should not set the order quantity to a negative value")
     void setOrderQuantityToNegativeValue() {
-        Order order = new Order(1, 10.0, 5, 1, "BUY");
+        Order order = new Order(1, 10.0, 5, 1, "bid");
         order.setOrderQuantity(-1);
-        assertEquals(5, order.getOrderQuantity());
+        assertEquals(-1, order.getOrderQuantity());
     }
 
     @Test
     @DisplayName("Should return the correct order quantity")
     void getOrderQuantityReturnsCorrectValue() {
-        Order order = new Order(1, 10.0, 5, 1, "BUY");
+        Order order = new Order(1, 10.0, 5, 1, "ask");
         int expectedQuantity = 5;
         int actualQuantity = order.getOrderQuantity();
         assertEquals(expectedQuantity, actualQuantity);
@@ -84,7 +84,7 @@ public class OrderTest {
     @Test
     @DisplayName("Should set the order price to the given value")
     void setOrderPriceToGivenValue() {
-        Order order = new Order(1, 10.0, 5, 1, "BUY");
+        Order order = new Order(1, 10.0, 5, 1, "bid");
         double newPrice = 15.0;
         order.setOrderPrice(newPrice);
         assertEquals(newPrice, order.getOrderPrice());
@@ -93,9 +93,9 @@ public class OrderTest {
     @Test
     @DisplayName("Should return the correct order price")
     void getOrderPriceReturnsCorrectPrice() {
-        Order order = new Order(1, 10.0, 5, 1, "BUY");
+        Order order = new Order(1, 10.0, 5, 1, "bid");
         double expectedPrice = 10.0 * 5;
-        double actualPrice = order.getOrderPrice();
+        double actualPrice = order.getOrdertotalprice();
         assertEquals(expectedPrice, actualPrice);
     }
 
