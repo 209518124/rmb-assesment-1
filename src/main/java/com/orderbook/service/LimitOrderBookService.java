@@ -17,7 +17,7 @@ public class LimitOrderBookService {
         // OrderComparator compares orders based on their price and priority
         Comparator<Order> orderComparator = new OrderComparator();
         bidOrders = new PriorityQueue<>(orderComparator.reversed());
-        askOrders = new PriorityQueue<>(orderComparator);
+        askOrders = new PriorityQueue<>(orderComparator.reversed());
     }
 
 
