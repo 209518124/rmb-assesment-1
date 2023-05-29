@@ -16,8 +16,8 @@ public class LimitOrderBookService {
 
         // OrderComparator compares orders based on their price and priority
         Comparator<Order> orderComparator = new OrderComparator();
-        bidOrders = new PriorityQueue<>(orderComparator.reversed());
-        askOrders = new PriorityQueue<>(orderComparator.reversed());
+        bidOrders = new PriorityQueue<>(orderComparator.reversed());  // reverse so that priority with low number is ranked the highest
+        askOrders = new PriorityQueue<>(orderComparator.reversed());  // reverse so that priority with low number is ranked the highest
     }
 
 
@@ -136,7 +136,7 @@ public class LimitOrderBookService {
 
     public Order getLowestPriorityOrder() {
         if (bidOrders.isEmpty() && askOrders.isEmpty()) {
-            return null; // Return null if both buy and sell orders are empty
+            return null;
         }
 
         Order lowestPriorityOrder = null;
